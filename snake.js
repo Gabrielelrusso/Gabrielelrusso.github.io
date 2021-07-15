@@ -30,6 +30,10 @@ function getRandomCharacter(){
     return items[Math.floor(Math.random()*items.length)];
 }
 
+function getCharacterImg(){
+    return characterImg;
+}
+
 // load audio files
 
 let dead = new Audio();
@@ -107,6 +111,7 @@ function draw(){
     
     for( let i = 0; i < snake.length ; i++){
         if( i === 0 ){
+            charImg.src = getCharacterImg();
             ctx.drawImage(charImg,snake[i].x,snake[i].y);
         }
         else{
@@ -159,6 +164,8 @@ function draw(){
     if(snakeX < box || snakeX > 17 * box || snakeY < 3*box || snakeY > 17*box || collision(newHead,snake)){
         clearInterval(game);
         dead.play();
+
+        $('#exampleModal').modal('show');
     }
     
     snake.unshift(newHead);
