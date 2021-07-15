@@ -12,10 +12,23 @@ const box = 32;
 // load images
 
 const ground = new Image();
-ground.src = "img/ground.png";
+ground.src = "img/ground2.png";
 
 const foodImg = new Image();
-foodImg.src = "img/food.png";
+foodImg.src = getRandomFoodSrc();
+
+const charImg = new Image();
+charImg.src = getRandomCharacter();
+
+function getRandomFoodSrc(){
+    let items = ["img/wine.png", "img/cigarette.png", "img/dick.png"]
+    return items[Math.floor(Math.random()*items.length)];
+}
+
+function getRandomCharacter(){
+    let items = ["img/mino.png"]
+    return items[Math.floor(Math.random()*items.length)];
+}
 
 // load audio files
 
@@ -93,13 +106,20 @@ function draw(){
     ctx.drawImage(ground,0,0);
     
     for( let i = 0; i < snake.length ; i++){
-        ctx.fillStyle = ( i == 0 )? "green" : "white";
-        ctx.fillRect(snake[i].x,snake[i].y,box,box);
-        
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(snake[i].x,snake[i].y,box,box);
+        if( i === 0 ){
+            ctx.drawImage(charImg,snake[i].x,snake[i].y);
+        }
+        else{
+            ctx.fillStyle = "white";
+
+            ctx.fillRect(snake[i].x,snake[i].y,box,box);
+        }
+
+
+        // ctx.strokeStyle = "red";
+        // ctx.strokeRect(snake[i].x,snake[i].y,box,box);
     }
-    
+
     ctx.drawImage(foodImg, food.x, food.y);
     
     // old head position
@@ -120,6 +140,7 @@ function draw(){
             x : Math.floor(Math.random()*17+1) * box,
             y : Math.floor(Math.random()*15+3) * box
         }
+        foodImg.src = getRandomFoodSrc();
         // we don't remove the tail
     }else{
         // remove the tail
@@ -144,7 +165,7 @@ function draw(){
     
     ctx.fillStyle = "white";
     ctx.font = "45px Changa one";
-    ctx.fillText(score,2*box,1.6*box);
+    ctx.fillText(score,7*box,1.6*box);
 }
 
 // call draw function every 100 ms
